@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawingPadding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.OutlinedTextField
@@ -17,6 +19,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -39,7 +42,13 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             TextFieldEduTheme {
-                Basic()
+                Surface (
+                    modifier = Modifier
+                        .statusBarsPadding()
+                        .safeDrawingPadding()
+                ){
+                    Brush()
+                }
             }
         }
     }
@@ -48,10 +57,27 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun Basic(modifier: Modifier = Modifier){
     var text by remember { mutableStateOf("") }
+    Box {
+        TextField(
+            value = text,
+            onValueChange = {text = it},
+            label = {
+                Text(
+                    text = "Basic"
+                )
+            },
+            modifier = modifier.fillMaxWidth().padding(10.dp)
+        )
+    }
+}
+
+@Composable
+fun Basic2(modifier: Modifier = Modifier){
+    var text by remember { mutableStateOf("") }
     val keyboardController = LocalSoftwareKeyboardController.current
     Box {
         TextField(
-            value = "코딩일기 구독 좋아요 알림설정 부탁드립니다~",
+            value = text,
             onValueChange = {text = it},
             label = {
                 Text(
@@ -67,6 +93,7 @@ fun Basic(modifier: Modifier = Modifier){
                     keyboardController?.hide()
                 }
             ),
+
             modifier = modifier.fillMaxWidth().padding(10.dp)
         )
     }
@@ -77,7 +104,7 @@ fun Outlined(modifier: Modifier = Modifier){
     var text by remember { mutableStateOf("") }
     Box {
         OutlinedTextField(
-            value = "코딩일기 구독 좋아요 알림설정 부탁드립니다~",
+            value = text,
             onValueChange = {text = it},
             label = {
                 Text(
@@ -102,8 +129,9 @@ fun Brush(modifier: Modifier = Modifier){
             colors = rainbowColors
         )
     }
+
     TextField(
-        value = "코딩일기 구독 좋아요 알림설정 부탁드립니다~",
+        value = text,
         onValueChange = {text = it},
         label = {
             Text(
@@ -114,6 +142,7 @@ fun Brush(modifier: Modifier = Modifier){
         modifier = modifier.fillMaxWidth().padding(10.dp)
     )
 }
+
 
 @Preview(showBackground = true)
 @Composable
